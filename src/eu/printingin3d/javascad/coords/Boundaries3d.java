@@ -189,4 +189,17 @@ public class Boundaries3d {
 				y.getAlignedValue(side.getAlignY()),
 				z.getAlignedValue(side.getAlignZ()));
 	}
+	
+	public boolean isInsideOf(Boundaries3d boundaries) {
+		return x.isInsideOf(boundaries.getX()) & y.isInsideOf(boundaries.getY()) & z.isInsideOf(boundaries.getZ());
+	}
+
+	public String toString(){
+		String ret="";
+		ret+="x:"+x.toString()+", ";
+		ret+="y:"+y.toString()+", ";
+		ret+="z:"+z.toString();
+		return "<"+ret+">";
+	}
+
 }
