@@ -1,5 +1,7 @@
 package eu.printingin3d.javascad.coords;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.Collection;
 
 import eu.printingin3d.javascad.enums.AlignType;
@@ -220,5 +222,14 @@ public class Boundary {
 	 */
 	public boolean isInsideOf(Boundary b) {
 		return (b.min<=this.min && b.max>=this.max);
+	}
+	
+	static DecimalFormat df = new DecimalFormat("#.##");      
+
+	/**
+	 * Returns a String representation of the object
+	 */
+	public String toString(){
+		return ""+df.format(min)+".."+df.format(max);
 	}
 }

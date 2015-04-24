@@ -190,6 +190,14 @@ public class Boundaries3d {
 				z.getAlignedValue(side.getAlignZ()));
 	}
 	
+	/**
+	 * Returns true if and only if this boundary3d is inside of the given boundary3d. It means
+	 * it gives true if for each dimension the given boundary's minimum value is not greater then this boundary's minimum 
+	 * value and the given boundary's maximum value is not less then this boundary's maximum value.
+	 * 
+	 * @param boundaries
+	 * @return
+	 */
 	public boolean isInsideOf(Boundaries3d boundaries) {
 		return x.isInsideOf(boundaries.getX()) & y.isInsideOf(boundaries.getY()) & z.isInsideOf(boundaries.getZ());
 	}
