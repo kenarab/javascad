@@ -189,4 +189,12 @@ public class Boundaries3d {
 				y.getAlignedValue(side.getAlignY()),
 				z.getAlignedValue(side.getAlignZ()));
 	}
+	
+	public String toString(){
+		String ret="";
+		ret+="x:"+x.toString()+", ";
+		ret+="y:"+y.toString()+", ";
+		ret+="z:"+z.toString();
+		return "<"+ret+">";
+	}
 }
