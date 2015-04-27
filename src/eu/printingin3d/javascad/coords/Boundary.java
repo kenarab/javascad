@@ -101,6 +101,11 @@ public class Boundary {
 		this.max = max;
 	}
 	
+	public Boundary(Boundary boundary) {
+		this.min=boundary.min;
+		this.max=boundary.max;
+	}	
+
 	/**
 	 * <p>Negate the current object if the parameter is true, but this object 
 	 * will be unchanged: a new one will be created with the new values. 

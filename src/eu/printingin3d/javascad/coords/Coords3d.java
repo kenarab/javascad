@@ -1,5 +1,6 @@
 package eu.printingin3d.javascad.coords;
 
+
 /**
  * Immutable representation of a 3D coordinate with useful helper methods.
  *
@@ -70,6 +71,7 @@ public class Coords3d extends Abstract3d {
 	public Coords3d(double x, double y, double z) {
 		super(x,y,z);
 	}
+	
 	
 	/**
 	 * Moving this coordinate by the given vector, but this object will be unchanged and 
@@ -180,4 +182,12 @@ public class Coords3d extends Abstract3d {
     public double distance(Coords3d d) {
     	return this.move(d.inverse()).magnitude();
     }
+
+	public double [] toArray() {
+		double[] ret=new double[3];
+		ret[0]=x;
+		ret[1]=y;
+		ret[2]=z;
+		return ret;
+	}
 }

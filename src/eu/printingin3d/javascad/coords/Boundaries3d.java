@@ -90,6 +90,10 @@ public class Boundaries3d {
 		this.z = new Boundary(minCorner.getZ(), maxCorner.getZ());
 	}
 	
+	public Boundaries3d(Boundaries3d boundaries) {
+		this(new Boundary(boundaries.x),new Boundary(boundaries.y),new Boundary(boundaries.z));
+	}
+
 	/**
 	 * Returns with the boundary on the X plane.
 	 * @return the boundary on the X plane
@@ -201,7 +205,10 @@ public class Boundaries3d {
 	public boolean isInsideOf(Boundaries3d boundaries) {
 		return x.isInsideOf(boundaries.getX()) & y.isInsideOf(boundaries.getY()) & z.isInsideOf(boundaries.getZ());
 	}
-
+	
+	/**
+	 * Returns a String representation of the object
+	 */
 	public String toString(){
 		String ret="";
 		ret+="x:"+x.toString()+", ";
