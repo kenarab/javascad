@@ -1,7 +1,6 @@
 package eu.printingin3d.javascad.coords;
 
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.util.Collection;
 
 import eu.printingin3d.javascad.enums.AlignType;

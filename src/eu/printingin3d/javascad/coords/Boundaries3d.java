@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
 import eu.printingin3d.javascad.enums.Side;
 import eu.printingin3d.javascad.exceptions.IllegalValueException;
 
@@ -215,6 +216,10 @@ public class Boundaries3d {
 		ret+="y:"+y.toString()+", ";
 		ret+="z:"+z.toString();
 		return "<"+ret+">";
+	}
+
+	public Coords3d getCenter() {
+		return new Coords3d(getX().getMiddle(),getY().getMiddle(),getZ().getMiddle());
 	}
 
 }
