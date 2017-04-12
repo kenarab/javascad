@@ -214,4 +214,16 @@ public class Coords3d extends Basic3dFunc<Coords3d> {
 	protected Coords3d create(double x, double y, double z) {
 		return new Coords3d(x, y, z);
 	}
+	
+	
+	/**
+	 * Create a new angle object from Coords
+	 * @param coords is the coords for  transformation in angles
+	 */
+	public Angles3d asAngles3d() {
+		double angleX=Math.atan(this.z/this.y);
+		double angleY=Math.atan(this.x/this.z);
+		double angleZ=Math.atan(this.y/this.x);
+		return new Angles3d(angleX,angleY,angleZ);
+	}
 }
