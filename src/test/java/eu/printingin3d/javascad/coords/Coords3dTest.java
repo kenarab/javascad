@@ -99,6 +99,13 @@ public class Coords3dTest {
 		assertDoubleEquals(d1, d2);
 	}
 
+	
+	@Test
+	public void testAnglesRotationGeneration() {
+		System.out.println(new Coords3d(10, 0, 0).asAngles3d());
+		assertEquals(new Angles3d(10,143.9934,-64.4547), new Coords3d(10, 0, 0).asAngles3d());
+	}
+
 	@Test
 	public void testStaticConstructors() {
 		double value = getRandomDouble(-1000.0, 1000.0);

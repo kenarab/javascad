@@ -55,7 +55,7 @@ public class RotateAxe extends Complex3dModel {
 	 * @return the string which represents the rotation in OpenSCAD
 	 */
 	public static String getRotate(double angle, Coords3d vector) {
-		return "rotate(a="+angle+", v=["+vector+"])";
+		return "rotate(a="+angle+", v="+vector+")";
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package eu.printingin3d.javascad.coords;
 
 import java.nio.ByteBuffer;
+import java.util.Vector;
 
 import eu.printingin3d.javascad.basic.Angle;
 
@@ -221,9 +222,10 @@ public class Coords3d extends Basic3dFunc<Coords3d> {
 	 * @param coords is the coords for  transformation in angles
 	 */
 	public Angles3d asAngles3d() {
-		double angleX=Math.atan(this.z/this.y);
-		double angleY=Math.atan(this.x/this.z);
-		double angleZ=Math.atan(this.y/this.x);
+		Coords3d normalized=this.mul(1/this.magnitude());
+		double angleX=Math.atan(normalized.z/normalized.y);
+		double angleY=Math.atan(normalized.x/normalized.z);
+		double angleZ=Math.atan(normalized.y/normalized.x);
 		return new Angles3d(angleX,angleY,angleZ);
 	}
 }
