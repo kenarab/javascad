@@ -63,7 +63,7 @@ public class Union extends Complex3dModel {
 		default:
 			SCAD result = new SCAD("union() {\n");
 			for (SCAD scad : scads) {
-				result = result.append(scad);
+				result = result.append(scad+"\n");
 			}
 			return result.append("}\n");
 		}

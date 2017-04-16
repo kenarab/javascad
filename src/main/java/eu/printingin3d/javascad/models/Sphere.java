@@ -22,6 +22,7 @@ import eu.printingin3d.javascad.vrl.Polygon;
  */
 public class Sphere extends Atomic3dModel {
 	private final Radius r;
+	private Integer resolution=null;
 
 	/**
 	 * Creates the sphere with the given radius.
@@ -30,6 +31,20 @@ public class Sphere extends Atomic3dModel {
 	 */
 	public Sphere(Radius r) throws IllegalValueException {
 		this.r = r;
+	}
+	
+	/**
+	 * 
+	 * 	Creates the sphere with the given radius and resolution.
+	 * 	TODO implement in CSG
+	 * @param r
+	 * @param resolution
+	 * @author kenarab <ken4rab@gmail.com>
+	 */
+	public Sphere(Radius r, Integer resolution) {
+		this.r = r;
+		this.resolution=resolution;
+
 	}
 	
 	/**
@@ -43,9 +58,15 @@ public class Sphere extends Atomic3dModel {
 		this(Radius.fromRadius(r));
 	}
 
+	
+
 	@Override
 	protected SCAD innerToScad(IColorGenerationContext context) {
-		return new SCAD("sphere(r="+r+");\n");
+		String command = "sphere(r="+r;
+		if (resolution!=null)
+			command+=",$fn="+this.resolution;
+		command+=");\n";
+		return new SCAD(command);
 	}
 
 	@Override
