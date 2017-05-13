@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import eu.printingin3d.javascad.context.IColorGenerationContext;
 import eu.printingin3d.javascad.context.IScadGenerationContext;
@@ -34,13 +35,14 @@ import eu.printingin3d.javascad.vrl.FacetGenerationContext;
  * @author ivivan <ivivan@printingin3d.eu>
  */
 public abstract class Abstract3dModel implements IModel {
+	private static List<Integer> s_bothsides;
 	private int tag = 0;
 	private Coords3d move = Coords3d.ZERO;
 	private Angles3d rotate = Angles3d.ZERO;
 	private boolean debug = false;
 	private boolean background = false;
 	private final Map<Plane, RoundProperties> roundingPlane = new HashMap<>();
-	
+
 	/**
 	 * Moves this object by the given coordinates. This object won't be changed, but a new object will be created.
 	 * @param delta the coordinates used by the move
@@ -459,4 +461,5 @@ public abstract class Abstract3dModel implements IModel {
 	protected boolean isBackground() {
 		return background;
 	}
+	
 }

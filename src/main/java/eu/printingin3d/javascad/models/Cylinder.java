@@ -29,6 +29,7 @@ public class Cylinder extends Atomic3dModel {
 	protected final double length;
 	protected final Radius bottomRadius;
 	protected final Radius topRadius;
+	private Integer resolution=null;
 	
 	/**
 	 * Creates a truncated cone. If one of the two radiuses is zero the result is a cone. 
@@ -66,6 +67,21 @@ public class Cylinder extends Atomic3dModel {
 	}
 
 	/**
+	 * 
+	 * 	Creates a cylinder with the given length,radius and resolution.
+	 * 	TODO implement in CSG
+	 * @param length the length of the cylinder
+	 * @param r
+	 * @param resolution
+	 * @author kenarab <ken4rab@gmail.com>
+	 */
+	public Cylinder(double length,Radius r, int res) throws IllegalValueException {
+		this(length,r);
+		resolution=res;
+	}
+	
+	
+	/**
 	 * Creates a truncated cone. If one of the two radiuses is zero the result is a cone. 
 	 * If the two radiuses are the same the result is a cylinder.
 	 * @param length the length of the cylinder
@@ -93,13 +109,18 @@ public class Cylinder extends Atomic3dModel {
 
 	@Override
 	protected SCAD innerToScad(IColorGenerationContext context) {
+		String commandResolution="";
+		if (resolution!=null)
+			commandResolution+=",$fn="+this.resolution;
+
+		
 		if (bottomRadius.equals(topRadius)) {
 			return new SCAD("cylinder(h="+DoubleUtils.formatDouble(length)+
-						", r="+bottomRadius+", center=true);\n");
+						", r="+bottomRadius+commandResolution+", center=true);\n");
 		}
 		return new SCAD("cylinder(h="+DoubleUtils.formatDouble(length)+
 					", r1="+bottomRadius+
-					", r2="+topRadius+", center=true);\n");
+					", r2="+topRadius+commandResolution+", center=true);\n");
 	}
 
 	@Override
