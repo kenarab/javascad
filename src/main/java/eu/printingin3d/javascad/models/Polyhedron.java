@@ -25,106 +25,104 @@ import eu.printingin3d.javascad.vrl.Polygon;
  * @author Rob van der Veer
  */
 public class Polyhedron extends Atomic3dModel {
-	protected final List<Triangle3d> triangles;
+    protected final List<Triangle3d> triangles;
 
-	/**
-	 * Constructs the object with the given triangles.
-	 * 
-	 * @param triangles
-	 *            the triangles used to create this object
-	 * @throws IllegalValueException
-	 *             thrown if the given list is empty
-	 */
-	public Polyhedron(List<Triangle3d> triangles) throws IllegalValueException {
-		AssertValue.isNotEmpty(triangles,
-				"The triangle list should not be empty!");
+    /**
+     * Constructs the object with the given triangles.
+     * 
+     * @param triangles
+     *            the triangles used to create this object
+     * @throws IllegalValueException
+     *             thrown if the given list is empty
+     */
+    public Polyhedron(List<Triangle3d> triangles) throws IllegalValueException {
+        AssertValue.isNotEmpty(triangles,
+                "The triangle list should not be empty!");
 
-		this.triangles = new ArrayList<>(triangles);
-	}
+        this.triangles = new ArrayList<>(triangles);
+    }
 
-	@Override
-	protected Boundaries3d getModelBoundaries() {
-		double minX = +Double.MAX_VALUE;
-		double minY = +Double.MAX_VALUE;
-		double minZ = +Double.MAX_VALUE;
-		double maxX = -Double.MAX_VALUE;
-		double maxY = -Double.MAX_VALUE;
-		double maxZ = -Double.MAX_VALUE;
+    @Override
+    protected Boundaries3d getModelBoundaries() {
+        double minX = +Double.MAX_VALUE;
+        double minY = +Double.MAX_VALUE;
+        double minZ = +Double.MAX_VALUE;
+        double maxX = -Double.MAX_VALUE;
+        double maxY = -Double.MAX_VALUE;
+        double maxZ = -Double.MAX_VALUE;
 
-		for (final Coords3d p : getPoints()) {
-			minX = Math.min(p.getX(), minX);
-			minY = Math.min(p.getY(), minY);
-			minZ = Math.min(p.getZ(), minZ);
-			maxX = Math.max(p.getX(), maxX);
-			maxY = Math.max(p.getY(), maxY);
-			maxZ = Math.max(p.getZ(), maxZ);
-		}
-		Coords3d minCorner = new Coords3d(minX, minY, minZ);
-		Coords3d maxCorner = new Coords3d(maxX, maxY, maxZ);
-		return new Boundaries3d(minCorner, maxCorner);
-	}
+        for (final Coords3d p : getPoints()) {
+            minX = Math.min(p.getX(), minX);
+            minY = Math.min(p.getY(), minY);
+            minZ = Math.min(p.getZ(), minZ);
+            maxX = Math.max(p.getX(), maxX);
+            maxY = Math.max(p.getY(), maxY);
+            maxZ = Math.max(p.getZ(), maxZ);
+        }
+        Coords3d minCorner = new Coords3d(minX, minY, minZ);
+        Coords3d maxCorner = new Coords3d(maxX, maxY, maxZ);
+        return new Boundaries3d(minCorner, maxCorner);
+    }
 
-	private List<Coords3d> getPoints() {
-		Set<Coords3d> result = new HashSet<>();
-		for (Triangle3d triangle : triangles) {
-			result.addAll(triangle.getPoints());
-		}
-		return new ArrayList<>(result);
-	}
+    private List<Coords3d> getPoints() {
+        Set<Coords3d> result = new HashSet<>();
+        for (Triangle3d triangle : triangles) {
+            result.addAll(triangle.getPoints());
+        }
+        return new ArrayList<>(result);
+    }
 
-	@Override
-	protected Abstract3dModel innerCloneModel() {
-		return new Polyhedron(triangles);
-	}
+    @Override
+    protected Abstract3dModel innerCloneModel() {
+        return new Polyhedron(triangles);
+    }
 
-	@Override
-	protected SCAD innerToScad(IColorGenerationContext context) {
-		List<Coords3d> points = getPoints();
+    @Override
+    protected SCAD innerToScad(IColorGenerationContext context) {
+        List<Coords3d> points = getPoints();
 
-		SCAD b = new SCAD("polyhedron(");
-		b = addPoints(b, points)
-				.append(",");
-		b = addTriangles(b, points)
-				.append("\n);");
-		return b;
-	}
+        SCAD b = new SCAD("polyhedron(");
+        b = addPoints(b, points).append(",");
+        b = addTriangles(b, points).append("\n);");
+        return b;
+    }
 
-	private SCAD addPoints(SCAD b, List<Coords3d> points) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n  points=[");
-		boolean first = true;
-		for (Coords3d c : points) {
-			if (first) {
-				first = false;
-			} else {
-				sb.append(", ");
-			}
-			sb.append(c.toString());
-		}
-		return b.append(sb.append(']').toString());
-	}
+    private SCAD addPoints(SCAD b, List<Coords3d> points) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n  points=[");
+        boolean first = true;
+        for (Coords3d c : points) {
+            if (first) {
+                first = false;
+            } else {
+                sb.append(", ");
+            }
+            sb.append(c.toString());
+        }
+        return b.append(sb.append(']').toString());
+    }
 
-	private SCAD addTriangles(SCAD b, List<Coords3d> points) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n  faces=[");
-		boolean first = true;
-		for (Triangle3d c : triangles) {
-			if (first) {
-				first = false;
-			} else {
-				sb.append(", ");
-			}
-			sb.append(c.toTriangleString(points));
-		}
-		return b.append(sb.append(']').toString());
-	}
+    private SCAD addTriangles(SCAD b, List<Coords3d> points) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n  faces=[");
+        boolean first = true;
+        for (Triangle3d c : triangles) {
+            if (first) {
+                first = false;
+            } else {
+                sb.append(", ");
+            }
+            sb.append(c.toTriangleString(points));
+        }
+        return b.append(sb.append(']').toString());
+    }
 
-	@Override
-	protected CSG toInnerCSG(FacetGenerationContext context) {
-		List<Polygon> polygons = new ArrayList<>();
-		for (Triangle3d c : triangles) {
-			polygons.add(Polygon.fromPolygons(c.getPoints(), context.getColor()));
-		}
-		return new CSG(polygons);
-	}
+    @Override
+    protected CSG toInnerCSG(FacetGenerationContext context) {
+        List<Polygon> polygons = new ArrayList<>();
+        for (Triangle3d c : triangles) {
+            polygons.add(Polygon.fromPolygons(c.getPoints(), context.getColor()));
+        }
+        return new CSG(polygons);
+    }
 }

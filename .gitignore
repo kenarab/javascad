@@ -15,3 +15,7 @@
 /test-output
 /src/main/java/eu/printingin3d/javascad/utils/TestMain.java
 /.metadata
+
+#
+**/.DS_Store
+.settings/

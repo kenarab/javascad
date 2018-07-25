@@ -44,27 +44,30 @@ import eu.printingin3d.javascad.tranform.ITransformation;
 /**
  * Constructive Solid Geometry (CSG).
  *
- * This implementation is a Java port of
- * <a
+ * This implementation is a Java port of <a
  * href="https://github.com/evanw/csg.js/">https://github.com/evanw/csg.js/</a>
  * with some additional features like polygon extrude, transformations etc.
- * Thanks to the author for creating the CSG.js library.<br><br>
+ * Thanks to the author for creating the CSG.js library.<br>
+ * <br>
  *
  * <b>Implementation Details</b>
  *
  * All CSG operations are implemented in terms of two functions,
- * {@link Node#clipTo(Node)} and {@link Node#invert()},
- * which remove parts of a BSP tree inside another BSP tree and swap solid and
- * empty space, respectively. To find the union of {@code a} and {@code b}, we
- * want to remove everything in {@code a} inside {@code b} and everything in
- * {@code b} inside {@code a}, then combine polygons from {@code a} and
- * {@code b} into one solid:
+ * {@link Node#clipTo(Node)} and {@link Node#invert()}, which remove parts of a
+ * BSP tree inside another BSP tree and swap solid and empty space,
+ * respectively. To find the union of {@code a} and {@code b}, we want to remove
+ * everything in {@code a} inside {@code b} and everything in {@code b} inside
+ * {@code a}, then combine polygons from {@code a} and {@code b} into one solid:
  *
- * <blockquote><pre>
- *     a.clipTo(b);
- *     b.clipTo(a);
- *     a.build(b.allPolygons());
- * </pre></blockquote>
+ * <blockquote>
+ * 
+ * <pre>
+ * a.clipTo(b);
+ * b.clipTo(a);
+ * a.build(b.allPolygons());
+ * </pre>
+ * 
+ * </blockquote>
  *
  * The only tricky part is handling overlapping coplanar polygons in both trees.
  * The code above keeps both copies, but we need to keep them in one tree and
@@ -72,14 +75,18 @@ import eu.printingin3d.javascad.tranform.ITransformation;
  * inverse of {@code b} against {@code a}. The code for union now looks like
  * this:
  *
- * <blockquote><pre>
- *     a.clipTo(b);
- *     b.clipTo(a);
- *     b.invert();
- *     b.clipTo(a);
- *     b.invert();
- *     a.build(b.allPolygons());
- * </pre></blockquote>
+ * <blockquote>
+ * 
+ * <pre>
+ * a.clipTo(b);
+ * b.clipTo(a);
+ * b.invert();
+ * b.clipTo(a);
+ * b.invert();
+ * a.build(b.allPolygons());
+ * </pre>
+ * 
+ * </blockquote>
  *
  * Subtraction and intersection naturally follow from set operations. If union
  * is {@code A | B}, differenceion is {@code A - B = ~(~A | B)} and intersection
@@ -92,16 +99,19 @@ public class CSG {
 
     /**
      * Creates a new CSG file based on the given polygons.
-     * @param polygons the polygons to be used
+     * 
+     * @param polygons
+     *            the polygons to be used
      */
     public CSG(List<Polygon> polygons) {
-    	this.polygons = Collections.unmodifiableList(polygons);
+        this.polygons = Collections.unmodifiableList(polygons);
     }
 
     /**
      * Constructs a CSG from the specified {@link Polygon} instances.
      *
-     * @param polygons polygons
+     * @param polygons
+     *            polygons
      * @return a CSG instance
      */
     public static CSG fromPolygons(Polygon... polygons) {
@@ -115,19 +125,20 @@ public class CSG {
     public List<Polygon> getPolygons() {
         return polygons;
     }
-    
+
     /**
      * Get all the points this CSG holds.
+     * 
      * @return the points this CSG holds
      */
     public List<Coords3d> getPoints() {
-    	List<Coords3d> result = new ArrayList<>();
-    	
-    	for (Polygon p : getPolygons()) {
-			result.addAll(p.getVertices());
-    	}
-    	
-    	return result;
+        List<Coords3d> result = new ArrayList<>();
+
+        for (Polygon p : getPolygons()) {
+            result.addAll(p.getVertices());
+        }
+
+        return result;
     }
 
     /**
@@ -136,9 +147,11 @@ public class CSG {
      *
      * <b>Note:</b> Neither this csg nor the specified csg are modified.
      *
-     * <blockquote><pre>
+     * <blockquote>
+     * 
+     * <pre>
      *    A.union(B)
-     *
+     * 
      *    +-------+            +-------+
      *    |       |            |       |
      *    |   A   |            |       |
@@ -147,10 +160,13 @@ public class CSG {
      *         |   B   |            |       |
      *         |       |            |       |
      *         +-------+            +-------+
-     * </pre></blockquote>
+     * </pre>
+     * 
+     * </blockquote>
      *
      *
-     * @param csg other csg
+     * @param csg
+     *            other csg
      *
      * @return union of this csg and the specified csg
      */
@@ -172,9 +188,11 @@ public class CSG {
      *
      * <b>Note:</b> Neither this csg nor the specified csg are modified.
      *
-     * <blockquote><pre>
+     * <blockquote>
+     * 
+     * <pre>
      * A.difference(B)
-     *
+     * 
      * +-------+            +-------+
      * |       |            |       |
      * |   A   |            |       |
@@ -183,9 +201,12 @@ public class CSG {
      *      |   B   |
      *      |       |
      *      +-------+
-     * </pre></blockquote>
+     * </pre>
+     * 
+     * </blockquote>
      *
-     * @param csg other csg
+     * @param csg
+     *            other csg
      * @return difference of this csg and the specified csg
      */
     public CSG difference(CSG csg) {
@@ -208,9 +229,11 @@ public class CSG {
      *
      * <b>Note:</b> Neither this csg nor the specified csg are modified.
      *
-     * <blockquote><pre>
+     * <blockquote>
+     * 
+     * <pre>
      *     A.intersect(B)
-     *
+     * 
      *     +-------+
      *     |       |
      *     |   A   |
@@ -220,9 +243,12 @@ public class CSG {
      *          |       |
      *          +-------+
      * }
-     * </pre></blockquote>
+     * </pre>
+     * 
+     * </blockquote>
      *
-     * @param csg other csg
+     * @param csg
+     *            other csg
      * @return intersection of this csg and the specified csg
      */
     public CSG intersect(CSG csg) {
@@ -240,28 +266,30 @@ public class CSG {
 
     /**
      * Returns with all the facet this CSG object holds.
+     * 
      * @return all the facet this CSG object holds
      */
     public List<Facet> toFacets() {
-    	List<Facet> facets = new ArrayList<>();
-    	for (Polygon p : polygons) {
-    		facets.addAll(p.toFacets());
-    	}
-    	return facets;
+        List<Facet> facets = new ArrayList<>();
+        for (Polygon p : polygons) {
+            facets.addAll(p.toFacets());
+        }
+        return facets;
     }
-    
+
     /**
      * Returns a transformed copy of this CSG.
      *
-     * @param transform the transform to apply
+     * @param transform
+     *            the transform to apply
      *
      * @return a transformed copy of this CSG
      */
     public CSG transformed(ITransformation transform) {
-    	List<Polygon> newpolygons = new ArrayList<>();
-    	for (Polygon p : this.polygons) {
-    		newpolygons.add(p.transformed(transform));
-    	}
+        List<Polygon> newpolygons = new ArrayList<>();
+        for (Polygon p : this.polygons) {
+            newpolygons.add(p.transformed(transform));
+        }
 
         return new CSG(newpolygons);
     }

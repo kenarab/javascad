@@ -20,58 +20,67 @@ import eu.printingin3d.javascad.vrl.FacetGenerationContext;
  * @author ivivan <ivivan@printingin3d.eu>
  */
 public class Translate extends Complex3dModel {
-	private final Abstract3dModel model;
-	private final Coords3d move;
+    private final Abstract3dModel model;
+    private final Coords3d move;
 
-	/**
-	 * Creates a move operation.
-	 * @param model the model to be moved
-	 * @param move the coordinates used by the move operation
-	 * @throws IllegalValueException if either of the two parameters is null
-	 */
-	public Translate(Abstract3dModel model, Coords3d move) throws IllegalValueException {
-		AssertValue.isNotNull(model, "Model must not be null for translation!");
-		AssertValue.isNotNull(move, "Move must not be null for translation!");
-		
-		this.model = model;
-		this.move = move;
-	}
+    /**
+     * Creates a move operation.
+     * 
+     * @param model
+     *            the model to be moved
+     * @param move
+     *            the coordinates used by the move operation
+     * @throws IllegalValueException
+     *             if either of the two parameters is null
+     */
+    public Translate(Abstract3dModel model, Coords3d move)
+            throws IllegalValueException {
+        AssertValue.isNotNull(model, "Model must not be null for translation!");
+        AssertValue.isNotNull(move, "Move must not be null for translation!");
 
-	/**
-	 * This method is used internally by the {@link Abstract3dModel} - do not use it!
-	 * @param move the coordinates used by the move operation
-	 * @return the string which represents the move in OpenSCAD
-	 */
-	public static String getTranslate(Coords3d move) {
-		if (move.isZero()) {
-			return "";
-		}
-		return "translate("+move+")";
-	}
+        this.model = model;
+        this.move = move;
+    }
 
-	@Override
-	protected SCAD innerToScad(IColorGenerationContext context) {
-		return new SCAD(getTranslate(move)).append(model.toScad(context));
-	}
+    /**
+     * This method is used internally by the {@link Abstract3dModel} - do not
+     * use it!
+     * 
+     * @param move
+     *            the coordinates used by the move operation
+     * @return the string which represents the move in OpenSCAD
+     */
+    public static String getTranslate(Coords3d move) {
+        if (move.isZero()) {
+            return "";
+        }
+        return "translate(" + move + ")";
+    }
 
-	@Override
-	protected Boundaries3d getModelBoundaries() {
-		return model.getBoundaries().move(move);
-	}
+    @Override
+    protected SCAD innerToScad(IColorGenerationContext context) {
+        return new SCAD(getTranslate(move)).append(model.toScad(context));
+    }
 
-	@Override
-	protected Abstract3dModel innerCloneModel() {
-		return new Translate(model, move);
-	}
+    @Override
+    protected Boundaries3d getModelBoundaries() {
+        return model.getBoundaries().move(move);
+    }
 
-	@Override
-	protected CSG toInnerCSG(FacetGenerationContext context) {
-		return model.toCSG(context).transformed(TransformationFactory.getTranlationMatrix(move));
-	}
+    @Override
+    protected Abstract3dModel innerCloneModel() {
+        return new Translate(model, move);
+    }
 
-	@Override
-	protected Abstract3dModel innerSubModel(IScadGenerationContext context) {
-		Abstract3dModel subModel = model.subModel(context);
-		return subModel==null ? null : new Translate(subModel, move);
-	}
+    @Override
+    protected CSG toInnerCSG(FacetGenerationContext context) {
+        return model.toCSG(context).transformed(
+                TransformationFactory.getTranlationMatrix(move));
+    }
+
+    @Override
+    protected Abstract3dModel innerSubModel(IScadGenerationContext context) {
+        Abstract3dModel subModel = model.subModel(context);
+        return subModel == null ? null : new Translate(subModel, move);
+    }
 }

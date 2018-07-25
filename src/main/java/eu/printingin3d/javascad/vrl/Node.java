@@ -26,7 +26,7 @@
  * The views and conclusions contained in the software and documentation are those of the
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Michael Hoffer <info@michaelhoffer.de>.
- */ 
+ */
 
 package eu.printingin3d.javascad.vrl;
 
@@ -63,66 +63,71 @@ public final class Node {
     private final Node back;
 
     private Node(List<Polygon> polygons, Node front, Node back) {
-    	AssertValue.isNotEmpty(polygons, 
-    			"Polygons should be provided! If it is empty use the other constructor with the basePlane.");
-    	
-    	this.polygons = Collections.unmodifiableList(polygons);
-    	this.basePlane = null;
-		this.front = front;
-		this.back = back;
-	}
-    
-    private Node(Polygon basePlane, Node front, Node back) {
-    	AssertValue.isNotNull(basePlane, "Baseplane should be provided if polygons is missing!");
-    	
-    	this.polygons = Collections.emptyList();
-    	this.basePlane = basePlane;
-    	this.front = front;
-    	this.back = back;
+        AssertValue
+                .isNotEmpty(
+                        polygons,
+                        "Polygons should be provided! If it is empty use the other constructor with the basePlane.");
+
+        this.polygons = Collections.unmodifiableList(polygons);
+        this.basePlane = null;
+        this.front = front;
+        this.back = back;
     }
 
-	/**
+    private Node(Polygon basePlane, Node front, Node back) {
+        AssertValue.isNotNull(basePlane,
+                "Baseplane should be provided if polygons is missing!");
+
+        this.polygons = Collections.emptyList();
+        this.basePlane = basePlane;
+        this.front = front;
+        this.back = back;
+    }
+
+    /**
      * Creates a BSP node consisting of the specified polygons.
      *
-     * @param polygons polygons
+     * @param polygons
+     *            polygons
      * @return a new Node based on the list of polygons given
      */
     public static Node fromPoligons(List<Polygon> polygons) {
-    	if (polygons==null || polygons.isEmpty()) {
-			return null;
-		}
-    	
-    	Polygon newPlane = polygons.get(0);
+        if (polygons == null || polygons.isEmpty()) {
+            return null;
+        }
 
-    	List<Polygon> newPolygons = new ArrayList<>();
+        Polygon newPlane = polygons.get(0);
+
+        List<Polygon> newPolygons = new ArrayList<>();
         List<Polygon> frontP = new ArrayList<>();
         List<Polygon> backP = new ArrayList<>();
 
         for (Polygon polygon : polygons) {
-        	newPlane.splitPolygon(
-                    polygon, newPolygons, newPolygons, frontP, backP);
+            newPlane.splitPolygon(polygon, newPolygons, newPolygons, frontP,
+                    backP);
         }
-        
+
         Node newFront = fromPoligons(frontP);
         Node newBack = fromPoligons(backP);
         return new Node(newPolygons, newFront, newBack);
     }
 
     /**
-     * Inverts the node by flipping all the poligons it contains and inverting the front and 
-     * back nodes as well. 
+     * Inverts the node by flipping all the poligons it contains and inverting
+     * the front and back nodes as well.
+     * 
      * @return a new node which contains the reversed poligons
      */
-	public Node invert() {
-    	List<Polygon> newPolygons = new ArrayList<>();
+    public Node invert() {
+        List<Polygon> newPolygons = new ArrayList<>();
 
         for (Polygon polygon : this.polygons) {
-        	newPolygons.add(polygon.flip());
+            newPolygons.add(polygon.flip());
         }
 
         Node newBack = this.front == null ? null : this.front.invert();
         Node newFront = this.back == null ? null : this.back.invert();
-        
+
         return createNewNode(newPolygons, newFront, newBack);
     }
 
@@ -132,11 +137,12 @@ public final class Node {
      *
      * <b>Note:</b> polygons are splitted if necessary.
      *
-     * @param polys the polygons to clip
+     * @param polys
+     *            the polygons to clip
      *
      * @return the cliped list of polygons
      */
-	public List<Polygon> clipPolygons(List<Polygon> polys) {
+    public List<Polygon> clipPolygons(List<Polygon> polys) {
         if (polys.isEmpty()) {
             return new ArrayList<>();
         }
@@ -146,24 +152,27 @@ public final class Node {
         List<Polygon> backP = new ArrayList<>();
 
         for (Polygon polygon : polys) {
-        	plane.splitPolygon(polygon, frontP, backP, frontP, backP);
+            plane.splitPolygon(polygon, frontP, backP, frontP, backP);
         }
         if (this.front != null) {
             frontP = this.front.clipPolygons(frontP);
         }
         if (this.back != null) {
-        	frontP.addAll(this.back.clipPolygons(backP));
+            frontP.addAll(this.back.clipPolygons(backP));
         }
 
         return frontP;
     }
 
     /**
-     * Remove all polygons in this BSP tree that are inside the given other BSP tree.
-     * @param bsp the tree to remove
-     * @return a new object to contain the clipped poligons 
+     * Remove all polygons in this BSP tree that are inside the given other BSP
+     * tree.
+     * 
+     * @param bsp
+     *            the tree to remove
+     * @return a new object to contain the clipped poligons
      */
-	public Node clipTo(Node bsp) {
+    public Node clipTo(Node bsp) {
         List<Polygon> newPolygons = bsp.clipPolygons(this.polygons);
         Node newFront = null;
         Node newBack = null;
@@ -173,15 +182,17 @@ public final class Node {
         if (back != null) {
             newBack = back.clipTo(bsp);
         }
-        
+
         return createNewNode(newPolygons, newFront, newBack);
     }
 
-	/**
-	 * Returns with all the polygons this node holds including those which are in the front and back nodes.
-	 * @return all the polygons this node holds
-	 */
-	public List<Polygon> allPolygons() {
+    /**
+     * Returns with all the polygons this node holds including those which are
+     * in the front and back nodes.
+     * 
+     * @return all the polygons this node holds
+     */
+    public List<Polygon> allPolygons() {
         List<Polygon> localPolygons = new ArrayList<>(polygons);
         if (front != null) {
             localPolygons.addAll(front.allPolygons());
@@ -193,39 +204,46 @@ public final class Node {
         return localPolygons;
     }
 
-	private static Node combinePoligons(Node node, List<Polygon> polygons) {
-		return (node==null) ? fromPoligons(polygons) : node.build(polygons);
-	}
-	
-	/**
-	 * Build a new node adding the given polygons - splitting the polygons if necessary.
-	 * @param polygons the polygons to be added
-	 * @return a new node with the added polygons
-	 */
-	public Node build(List<Polygon> polygons) {
-    	if (polygons==null || polygons.isEmpty()) {
-			return this;
-		}
-    	
-    	Polygon newPlane = (this.polygons.isEmpty() ? polygons : this.polygons).get(0);
+    private static Node combinePoligons(Node node, List<Polygon> polygons) {
+        return (node == null) ? fromPoligons(polygons) : node.build(polygons);
+    }
 
-    	List<Polygon> newPolygons = new ArrayList<>(this.polygons);
+    /**
+     * Build a new node adding the given polygons - splitting the polygons if
+     * necessary.
+     * 
+     * @param polygons
+     *            the polygons to be added
+     * @return a new node with the added polygons
+     */
+    public Node build(List<Polygon> polygons) {
+        if (polygons == null || polygons.isEmpty()) {
+            return this;
+        }
+
+        Polygon newPlane = (this.polygons.isEmpty() ? polygons : this.polygons)
+                .get(0);
+
+        List<Polygon> newPolygons = new ArrayList<>(this.polygons);
         List<Polygon> frontP = new ArrayList<>();
         List<Polygon> backP = new ArrayList<>();
 
         for (Polygon polygon : polygons) {
-        	newPlane.splitPolygon(polygon, newPolygons, newPolygons, frontP, backP);
+            newPlane.splitPolygon(polygon, newPolygons, newPolygons, frontP,
+                    backP);
         }
-        return new Node(newPolygons, combinePoligons(front, frontP), combinePoligons(back, backP));
+        return new Node(newPolygons, combinePoligons(front, frontP),
+                combinePoligons(back, backP));
     }
-	
-	private Polygon getPlane() {
-		return polygons.isEmpty() ? basePlane : polygons.get(0);
-	}
-	
-	private Node createNewNode(List<Polygon> newPolygons, Node newFront, Node newBack) {
-        return newPolygons.isEmpty() ? new Node(getPlane(), newFront, newBack) :
-    		new Node(newPolygons, newFront, newBack);
 
-	}
+    private Polygon getPlane() {
+        return polygons.isEmpty() ? basePlane : polygons.get(0);
+    }
+
+    private Node createNewNode(List<Polygon> newPolygons, Node newFront,
+            Node newBack) {
+        return newPolygons.isEmpty() ? new Node(getPlane(), newFront, newBack)
+                : new Node(newPolygons, newFront, newBack);
+
+    }
 }

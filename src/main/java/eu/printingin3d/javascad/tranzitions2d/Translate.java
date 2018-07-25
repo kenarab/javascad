@@ -19,52 +19,61 @@ import eu.printingin3d.javascad.vrl.FacetGenerationContext;
  * @author ivivan <ivivan@printingin3d.eu>
  */
 public class Translate extends Abstract2dModel {
-	private final Abstract2dModel model;
+    private final Abstract2dModel model;
 
-	/**
-	 * Creates a move operation.
-	 * @param model the model to be moved
-	 * @param move the coordinates used by the move operation
-	 * @throws IllegalValueException if either of the two parameters is null
-	 */
-	public Translate(Abstract2dModel model, Coords2d move) throws IllegalValueException {
-		super(move);
-		
-		AssertValue.isNotNull(model, "Model must not be null for translation!");
-		AssertValue.isNotNull(move, "Move must not be null for translation!");
-		
-		this.model = model;
-	}
+    /**
+     * Creates a move operation.
+     * 
+     * @param model
+     *            the model to be moved
+     * @param move
+     *            the coordinates used by the move operation
+     * @throws IllegalValueException
+     *             if either of the two parameters is null
+     */
+    public Translate(Abstract2dModel model, Coords2d move)
+            throws IllegalValueException {
+        super(move);
 
-	/**
-	 * This method is used internally by the {@link Abstract2dModel} - do not use it!
-	 * @param move the coordinates used by the move operation
-	 * @return the string which represents the move in OpenSCAD
-	 */
-	public static String getTranslate(Coords2d move) {
-		if (move.isZero()) {
-			return "";
-		}
-		return "translate("+move+")";
-	}
+        AssertValue.isNotNull(model, "Model must not be null for translation!");
+        AssertValue.isNotNull(move, "Move must not be null for translation!");
 
-	@Override
-	protected SCAD innerToScad(IColorGenerationContext context) {
-		return new SCAD(getTranslate(move)).append(model.toScad(context));
-	}
+        this.model = model;
+    }
 
-	@Override
-	protected Boundaries2d getModelBoundaries() {
-		return model.getBoundaries2d();
-	}
+    /**
+     * This method is used internally by the {@link Abstract2dModel} - do not
+     * use it!
+     * 
+     * @param move
+     *            the coordinates used by the move operation
+     * @return the string which represents the move in OpenSCAD
+     */
+    public static String getTranslate(Coords2d move) {
+        if (move.isZero()) {
+            return "";
+        }
+        return "translate(" + move + ")";
+    }
 
-	@Override
-	public Abstract2dModel move(Coords2d delta) {
-		return new Translate(model, this.move.move(delta));
-	}
+    @Override
+    protected SCAD innerToScad(IColorGenerationContext context) {
+        return new SCAD(getTranslate(move)).append(model.toScad(context));
+    }
 
-	@Override
-	protected Collection<Area2d> getInnerPointCircle(FacetGenerationContext context) {
-		return model.getPointCircle(context);
-	}
+    @Override
+    protected Boundaries2d getModelBoundaries() {
+        return model.getBoundaries2d();
+    }
+
+    @Override
+    public Abstract2dModel move(Coords2d delta) {
+        return new Translate(model, this.move.move(delta));
+    }
+
+    @Override
+    protected Collection<Area2d> getInnerPointCircle(
+            FacetGenerationContext context) {
+        return model.getPointCircle(context);
+    }
 }
