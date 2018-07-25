@@ -32,6 +32,7 @@ public class LinearExtrude extends Atomic3dModel {
     private final double height;
     private final Angle twist;
     private final double scale;
+    private final boolean centered;
 
     /**
      * Constructs a 3D object based on the given parameters.
@@ -46,13 +47,17 @@ public class LinearExtrude extends Atomic3dModel {
      * @param scale
      *            the scaling of the 2D model during the extrusion. 1.0 means no
      *            change.
+     *       
+     * @param centered
+     *            Indicates wheter the extrusion must be centered           
      */
     public LinearExtrude(Abstract2dModel model, double height, Angle twist,
-            double scale) {
+            double scale, boolean centered) {
         this.model = model;
         this.height = height;
         this.twist = twist;
         this.scale = scale;
+        this.centered = centered;
     }
 
     /**
@@ -69,19 +74,19 @@ public class LinearExtrude extends Atomic3dModel {
      *            the rotation of the 2D model during the extrusion in degrees
      */
     public LinearExtrude(Abstract2dModel model, double height, Angle twist) {
-        this(model, height, twist, 1.0);
+        this(model, height, twist, 1.0, true);
     }
 
     @Override
     protected Abstract3dModel innerCloneModel() {
-        return new LinearExtrude(model, height, twist, scale);
+        return new LinearExtrude(model, height, twist, scale, centered);
     }
 
     @Override
     protected SCAD innerToScad(IColorGenerationContext context) {
         return new SCAD("linear_extrude(height="
                 + DoubleUtils.formatDouble(height)
-                + ", center=true, convexity=10, " + "twist=" + twist
+                + ", center="+this.centered+", convexity=10, " + "twist=" + twist
                 + ",scale=" + DoubleUtils.formatDouble(scale) + ")")
                 .append(model.toScad(context));
     }
@@ -145,6 +150,11 @@ public class LinearExtrude extends Atomic3dModel {
         return result;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see eu.printingin3d.javascad.models.Abstract3dModel#toInnerCSG(eu.printingin3d.javascad.vrl.FacetGenerationContext)
+     * TODO implement not centered in this function
+     */
     @Override
     protected CSG toInnerCSG(FacetGenerationContext context) {
         Color color = context.getColor();

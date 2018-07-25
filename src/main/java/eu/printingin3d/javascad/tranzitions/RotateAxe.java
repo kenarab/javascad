@@ -95,4 +95,12 @@ public class RotateAxe extends Complex3dModel {
         Abstract3dModel subModel = model.subModel(context);
         return subModel == null ? null : new RotateAxe(subModel, angle, vector);
     }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public Coords3d getRotationAxis() {
+        return vector;
+    }
 }
