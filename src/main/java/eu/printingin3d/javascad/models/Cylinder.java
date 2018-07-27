@@ -82,8 +82,7 @@ public class Cylinder extends Atomic3dModel {
 
     /**
      * 
-     * Creates a cylinder with the given length,radius and resolution. TODO
-     * implement in CSG
+     * Creates a cylinder with the given length,radius and resolution. 
      * 
      * @param length
      *            the length of the cylinder
@@ -91,6 +90,7 @@ public class Cylinder extends Atomic3dModel {
      * @param resolution
      * @author kenarab <ken4rab@gmail.com>
      */
+    //TODO: implement in toInnerCSG
     public Cylinder(double length, Radius r, int res)
             throws IllegalValueException {
         this(length, r);
@@ -99,8 +99,7 @@ public class Cylinder extends Atomic3dModel {
 
     /**
      * 
-     * Creates a cylinder with the given length,radius and resolution. TODO
-     * implement in CSG
+     * Creates a cylinder with the given length,bottomRadius, topradius and resolution. 
      * 
      * @param length
      *            the length of the cylinder
@@ -108,6 +107,8 @@ public class Cylinder extends Atomic3dModel {
      * @param resolution
      * @author kenarab <ken4rab@gmail.com>
      */
+    //TODO: implement in toInnerCSG
+    
     public Cylinder(double length, Radius bottomRadius, Radius topRadius, int res)
             throws IllegalValueException {
         this(length, bottomRadius,topRadius);
@@ -154,8 +155,9 @@ public class Cylinder extends Atomic3dModel {
     @Override
     protected SCAD innerToScad(IColorGenerationContext context) {
         String commandResolution = "";
-        if (resolution != null)
-            commandResolution += ",$fn=" + this.resolution;
+        if (resolution != null) {
+        	commandResolution += ",$fn=" + this.resolution;
+        }
 
         if (bottomRadius.equals(topRadius)) {
             return new SCAD("cylinder(h=" + DoubleUtils.formatDouble(length)

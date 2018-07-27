@@ -48,6 +48,25 @@ public class LinearExtrude extends Atomic3dModel {
      *            the scaling of the 2D model during the extrusion. 1.0 means no
      *            change.
      *       
+     */
+    public LinearExtrude(Abstract2dModel model, double height, Angle twist,
+            double scale) {
+        this(model,height,twist,scale,true);
+    }
+    /**
+     * Constructs a 3D object based on the given parameters.
+     * 
+     * @param model
+     *            the 2D model to be extruded
+     * @param height
+     *            the length of the extrusion. That will be the height of the
+     *            resulted 3D model
+     * @param twist
+     *            the rotation of the 2D model during the extrusion in degrees
+     * @param scale
+     *            the scaling of the 2D model during the extrusion. 1.0 means no
+     *            change.
+     *       
      * @param centered
      *            Indicates wheter the extrusion must be centered           
      */

@@ -68,8 +68,9 @@ public class Sphere extends Atomic3dModel {
     @Override
     protected SCAD innerToScad(IColorGenerationContext context) {
         String command = "sphere(r=" + r;
-        if (resolution != null)
-            command += ",$fn=" + this.resolution;
+        if (resolution != null) {
+        	command += ",$fn=" + this.resolution;
+        }
         command += ");\n";
         return new SCAD(command);
     }

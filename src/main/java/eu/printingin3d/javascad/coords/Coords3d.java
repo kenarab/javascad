@@ -1,7 +1,6 @@
 package eu.printingin3d.javascad.coords;
 
 import java.nio.ByteBuffer;
-import java.util.Vector;
 
 import eu.printingin3d.javascad.basic.Angle;
 

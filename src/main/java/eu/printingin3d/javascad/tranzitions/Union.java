@@ -97,15 +97,17 @@ public class Union extends Complex3dModel {
         default:
             String textBegin = "";
             String textEnd = "}";
-            if (comment.length() > 0)
-                textBegin += "// " + comment + "\n";
+            if (comment.length() > 0) {
+            	textBegin += "// " + comment + "\n";
+            }
             textBegin += "union() {\n";
             SCAD result = new SCAD(textBegin);
             for (SCAD scad : scads) {
                 result = result.append(scad + "\n");
             }
-            if (comment.length() > 0)
-                textEnd += "// " + comment + "\n";
+            if (comment.length() > 0) {
+            	textEnd += "// " + comment + "\n";
+            }
             return result.append(textEnd);
         }
     }
