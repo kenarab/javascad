@@ -169,10 +169,12 @@ public class LinearExtrude extends Atomic3dModel {
         return result;
     }
 
-    /*
+    /* 
      * (non-Javadoc)
-     * @see eu.printingin3d.javascad.models.Abstract3dModel#toInnerCSG(eu.printingin3d.javascad.vrl.FacetGenerationContext)
+     * @see eu.printingin3d.javascad.models.Abstract3dModel
+     * #toInnerCSG(eu.printingin3d.javascad.vrl.FacetGenerationContext)
      * TODO implement not centered in this function
+     * 
      */
     @Override
     protected CSG toInnerCSG(FacetGenerationContext context) {

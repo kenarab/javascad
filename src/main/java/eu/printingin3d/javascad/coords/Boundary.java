@@ -114,6 +114,11 @@ public class Boundary {
         this.max = max;
     }
 
+    /**
+     * 
+     * @param boundary
+     * 			The boundary to  initialize the object
+     */
     public Boundary(Boundary boundary) {
         this.min = boundary.min;
         this.max = boundary.max;
@@ -125,11 +130,9 @@ public class Boundary {
      * be unchanged: a new one will be created with the new values. This means
      * the new objects maximum value will be equals this object's minimum value
      * negated - the same is true for the minimum value.
-     * </p>
-     * <p>
+     * 
      * If the parameter is false this method returns with this object and does
      * nothing.
-     * </p>
      * 
      * @param doNegate
      *            this is the controlling parameter
@@ -258,17 +261,43 @@ public class Boundary {
      * limits.
      * 
      * @param value
-     *            the given value
-     * @return true if and only if the given value is inside of this boundary
+     * 				the given value
+     * @return 
+     * 				true if and only if the given value is inside of this boundary
      */
     public boolean isInside(double value) {
         return value >= this.min && value <= this.max;
     }
 
-    static DecimalFormat df = new DecimalFormat("#.##");
+    private static DecimalFormat df = new DecimalFormat("#.##");
 
+    
+    
     /**
-     * Returns a String representation of the object
+	 * @return the df
+	 */
+	public static DecimalFormat getDf() {
+		return df;
+	}
+
+	/**
+	 * @param df the df to set
+	 */
+	public static void setDf(DecimalFormat df) {
+		Boundary.df = df;
+	}
+
+	/**
+	 * @return the empty value.
+	 */
+	public static Boundary getEmpty() {
+		return EMPTY;
+	}
+
+	/**
+     * Returns a String representation of the object.
+     * @return 
+     * 		A string representation of the object. 
      */
     public String toString() {
         return "" + df.format(min) + ".." + df.format(max);

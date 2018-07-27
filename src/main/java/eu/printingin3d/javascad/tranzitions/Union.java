@@ -52,6 +52,7 @@ public class Union extends Complex3dModel {
      * @param models
      *            list of models
      * @param comment
+     * 				the comment to pass
      */
     public Union(List<Abstract3dModel> models, String comment) {
         this.models = models == null ? Collections
@@ -62,8 +63,10 @@ public class Union extends Complex3dModel {
     /**
      * Construct the object.
      * 
-     * @param comment
+     * @param comment 
+     * 			The comment to pass
      * @param models
+     * 			Models to include
      */
     public Union(String comment, Abstract3dModel... models) {
         this(Arrays.asList(models), comment);

@@ -37,7 +37,6 @@ import eu.printingin3d.javascad.vrl.FacetGenerationContext;
  * @author ivivan <ivivan@printingin3d.eu>
  */
 public abstract class Abstract3dModel implements IModel {
-    private static List<Integer> s_bothsides;
     private int tag = 0;
     private Coords3d move = Coords3d.ZERO;
     private Angles3d rotate = Angles3d.ZERO;
@@ -459,10 +458,12 @@ public abstract class Abstract3dModel implements IModel {
     /**
      * Convenient method to create a Union.
      * 
+     * @param comment 
+     * 				the comment to pass.
      * @param model
      *            the model to be added to this object
      * @return a new model which contains the union of this object and the given
-     *         object
+     *         object.
      */
     public Abstract3dModel addModel(String comment, Abstract3dModel model) {
         return new Union(comment, this, model);

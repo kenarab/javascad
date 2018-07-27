@@ -101,6 +101,11 @@ public class Boundaries3d {
         this.z = new Boundary(minCorner.getZ(), maxCorner.getZ());
     }
 
+    /**
+     * 
+     * @param boundaries
+     * 			the boundaries to init the object.
+     */
     public Boundaries3d(Boundaries3d boundaries) {
         this(new Boundary(boundaries.x), new Boundary(boundaries.y),
                 new Boundary(boundaries.z));
@@ -236,7 +241,9 @@ public class Boundaries3d {
      * boundary's maximum value.
      * 
      * @param boundaries
+     * 				The boundaries
      * @return
+     * 				True or False
      */
     public boolean isInsideOf(Boundaries3d boundaries) {
         return x.isInsideOf(boundaries.getX())
@@ -245,7 +252,10 @@ public class Boundaries3d {
     }
 
     /**
-     * Returns a String representation of the object
+     * Returns a String representation of the object.
+     * 
+     * @return 
+     * 			A string representation of the object
      */
     public String toString() {
         String ret = "";
@@ -254,7 +264,11 @@ public class Boundaries3d {
         ret += "z:" + z.toString();
         return "<" + ret + ">";
     }
-
+    
+    /**
+     * 
+     * @return the center of the object
+     */
     public Coords3d getCenter() {
         return new Coords3d(getX().getMiddle(), getY().getMiddle(), getZ()
                 .getMiddle());

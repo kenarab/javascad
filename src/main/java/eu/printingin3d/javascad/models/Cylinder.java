@@ -83,14 +83,18 @@ public class Cylinder extends Atomic3dModel {
     /**
      * 
      * Creates a cylinder with the given length,radius and resolution. 
+     * TODO implement in toInnerCSG
      * 
      * @param length
      *            the length of the cylinder
-     * @param r
-     * @param resolution
+     * @param r 
+     * 			the radious
+     * @param res
+     * 			the resolution
+     * @throws IllegalValueException  
+     * 				the value is erroneous
      * @author kenarab <ken4rab@gmail.com>
      */
-    //TODO: implement in toInnerCSG
     public Cylinder(double length, Radius r, int res)
             throws IllegalValueException {
         this(length, r);
@@ -100,15 +104,21 @@ public class Cylinder extends Atomic3dModel {
     /**
      * 
      * Creates a cylinder with the given length,bottomRadius, topradius and resolution. 
+     * TODO implement in toInnerCSG
      * 
      * @param length
      *            the length of the cylinder
-     * @param r
-     * @param resolution
+     * @param bottomRadius
+     * 			the bottom radious
+     * @param topRadius
+     * 			the top radious
+     * @param res
+     * 			the res
+     * 
+     * @throws IllegalValueException 
+     * 			the  value is erroneous
      * @author kenarab <ken4rab@gmail.com>
      */
-    //TODO: implement in toInnerCSG
-    
     public Cylinder(double length, Radius bottomRadius, Radius topRadius, int res)
             throws IllegalValueException {
         this(length, bottomRadius,topRadius);

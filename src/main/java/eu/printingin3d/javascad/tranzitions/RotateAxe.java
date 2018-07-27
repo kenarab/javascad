@@ -13,7 +13,7 @@ import eu.printingin3d.javascad.vrl.CSG;
 import eu.printingin3d.javascad.vrl.FacetGenerationContext;
 
 /**
- * This represents a rotate with an angle
+ * This represents a rotate with an angle.
  *
  * @author kenarab <ken4rab@gmail.com>
  */
@@ -94,10 +94,22 @@ public class RotateAxe extends Complex3dModel {
         return subModel == null ? null : new RotateAxe(subModel, angle, vector);
     }
 
+    /**
+     * Gets an angle. 
+     * 
+     * @return 
+     * 		the angle
+     */
     public double getAngle() {
         return angle;
     }
 
+    /**
+     * Gets a rotation axis. 
+     * 
+     * @return 
+     * 		the vector
+     */
     public Coords3d getRotationAxis() {
         return vector;
     }

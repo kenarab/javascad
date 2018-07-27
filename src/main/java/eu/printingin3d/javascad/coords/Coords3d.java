@@ -226,8 +226,9 @@ public class Coords3d extends Basic3dFunc<Coords3d> {
     /**
      * Calculates the distance between this coordinate and the given coordinate.
      * 
-     * @param d
+     * @param d the Coords
      * @return
+     * 			the distance
      */
     public double distance(Coords3d d) {
         return this.move(d.inverse()).magnitude();
@@ -239,10 +240,10 @@ public class Coords3d extends Basic3dFunc<Coords3d> {
     }
 
     /**
-     * Create a new angle object from Coords
+     * Create a new angle object from Coords.
      * 
-     * @param coords
-     *            is the coords for transformation in angles
+     * @return 
+     * 			 the representation in angles
      */
     public Angles3d asAngles3d() {
         Coords3d normalized = this.mul(1 / this.magnitude());

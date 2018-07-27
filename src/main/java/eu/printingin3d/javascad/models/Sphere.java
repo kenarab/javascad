@@ -42,7 +42,9 @@ public class Sphere extends Atomic3dModel {
      * in CSG
      * 
      * @param r
+     * 			the radious.
      * @param resolution
+     * 			the resolution to pass.
      * @author kenarab <ken4rab@gmail.com>
      */
     public Sphere(Radius r, Integer resolution) {

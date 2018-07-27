@@ -9,7 +9,8 @@ import eu.printingin3d.javascad.coords.Coords3d;
 
 /**
  * This class is used by the
- * {@link eu.printingin3d.javascad.models.Abstract3dModel #align(Side, eu.printingin3d.javascad.models.Abstract3dModel, boolean)
+ * {@link eu.printingin3d.javascad.models.Abstract3dModel 
+ * #align(Side, eu.printingin3d.javascad.models.Abstract3dModel, boolean)
  * Abstract3dModel.align(Side, Abstract3dModel, boolean)} method to set the side
  * where the other model should be aligned.
  *
@@ -260,7 +261,8 @@ public class Side {
 
     /**
      * This method is used internally by the
-     * {@link eu.printingin3d.javascad.models.Abstract3dModel #align(Side, eu.printingin3d.javascad.models.Abstract3dModel, boolean)
+     * {@link eu.printingin3d.javascad.models.Abstract3dModel 
+     * #align(Side, eu.printingin3d.javascad.models.Abstract3dModel, boolean)
      * Abstract3dModel.align(Side, Abstract3dModel, boolean)}. It calculates the
      * coordinates of the position the first model should be placed to be in the
      * desired position.
@@ -287,7 +289,8 @@ public class Side {
 
     /**
      * This method is used internally by the
-     * {@link eu.printingin3d.javascad.models.Abstract3dModel #align(Side, eu.printingin3d.javascad.models.Abstract3dModel, boolean)
+     * {@link eu.printingin3d.javascad.models.Abstract3dModel 
+     * #align(Side, eu.printingin3d.javascad.models.Abstract3dModel, boolean)
      * Abstract3dModel.align(Side, Abstract3dModel, boolean)}. It calculates the
      * coordinates of the position the first model should be placed to be in the
      * desired position.
