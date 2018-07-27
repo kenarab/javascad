@@ -4,7 +4,7 @@
 
 	<groupId>eu.printingin3d.javascad</groupId>
 	<artifactId>javascad</artifactId>
-	<version>0.9.0.20</version>
+	<version>0.9.1.0</version>
 	<packaging>jar</packaging>
 	<name>JavaSCAD</name>
 	<description>Our little model generator framework.</description>
@@ -109,7 +109,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.17</version>
@@ -129,7 +129,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.8</version>

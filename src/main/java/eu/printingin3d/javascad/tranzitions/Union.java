@@ -27,9 +27,7 @@ import eu.printingin3d.javascad.vrl.FacetGenerationContext;
  * generation.
  * </p>
  * <p>
- * The object doesn't have any list modification method and although it could
- * work if the passed list is modified after the construction, the advised
- * solution is to create the final list before creating this object.
+ * You can use the {@link #addModel} method to add more models to the union.
  * </p>
  */
 public class Union extends Complex3dModel {
@@ -52,24 +50,12 @@ public class Union extends Complex3dModel {
      * @param models
      *            list of models
      * @param comment
-     * 				the comment to pass
+     *            the comment to pass
      */
     public Union(List<Abstract3dModel> models, String comment) {
-        this.models = models == null ? Collections
-                .<Abstract3dModel> emptyList() : ListUtils.removeNulls(models);
+        this.models = models == null ? Collections.<Abstract3dModel> emptyList()
+                : ListUtils.removeNulls(models);
         this.comment = comment;
-    }
-
-    /**
-     * Construct the object.
-     * 
-     * @param comment 
-     * 			The comment to pass
-     * @param models
-     * 			Models to include
-     */
-    public Union(String comment, Abstract3dModel... models) {
-        this(Arrays.asList(models), comment);
     }
 
     /**
@@ -82,6 +68,21 @@ public class Union extends Complex3dModel {
         this(Arrays.asList(models));
     }
 
+    
+    /**
+     * Construct the object.
+     * 
+     * @param comment 
+     * 			The comment to pass
+     * @param models
+     *            array of models
+     */
+    public Union(String comment, Abstract3dModel... models) {
+        this(Arrays.asList(models), comment);
+    }
+
+    
+    
     @Override
     protected SCAD innerToScad(IColorGenerationContext context) {
         List<SCAD> scads = new ArrayList<>();
@@ -100,8 +101,9 @@ public class Union extends Complex3dModel {
         default:
             String textBegin = "";
             String textEnd = "}";
+
             if (comment.length() > 0) {
-            	textBegin += "// " + comment + "\n";
+                textBegin += "// " + comment + "\n";
             }
             textBegin += "union() {\n";
             SCAD result = new SCAD(textBegin);
@@ -109,9 +111,10 @@ public class Union extends Complex3dModel {
                 result = result.append(scad + "\n");
             }
             if (comment.length() > 0) {
-            	textEnd += "// " + comment + "\n";
+                textEnd += "// " + comment + "\n";
             }
             return result.append(textEnd);
+
         }
     }
 
